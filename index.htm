@@ -1,17 +1,160 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>
-            <pre>How to upload files using HTML to  a Website</pre>
-        </title>
-        <body>
-            <center>
-                <h1>Welcome to GFG</h1>
-                <h2>Here is how you can upload files using HTML to a Website</h2>
-                <input type="file"
-                       id="File1"
-                     Click on the button to  name="Upload File">
-            </center>
-        </body>
-    </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cool File Upload</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(0,255,255,0.2);
+            width: 350px;
+        }
+
+        h1 {
+            color: #38bdf8;
+        }
+
+        .upload-box {
+            border: 2px dashed #38bdf8;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 10px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .upload-box:hover {
+            background: rgba(56,189,248,0.1);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        button {
+            background: #38bdf8;
+            border: none;
+            padding: 10px 20px;
+            color: black;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0ea5e9;
+            transform: scale(1.05);
+        }
+
+        .file-name {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .progress {
+            width: 100%;
+            background: #334155;
+            border-radius: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 10px;
+            width: 0%;
+            background: #22c55e;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🚀 Upload Files</h1>
+    <p>Drag & Drop or Click Below</p>
+
+    <label class="upload-box" id="dropArea">
+        📂 Drop file here or click to upload
+        <input type="file" id="fileInput">
+    </label>
+
+    <button onclick="uploadFile()">Upload</button>
+
+    <div class="file-name" id="fileName"></div>
+
+    <div class="progress" id="progressBox">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+</div>
+
+<script>
+    const fileInput = document.getElementById("fileInput");
+    const fileName = document.getElementById("fileName");
+    const dropArea = document.getElementById("dropArea");
+    const progressBar = document.getElementById("progressBar");
+    const progressBox = document.getElementById("progressBox");
+
+    // Show selected file name
+    fileInput.addEventListener("change", () => {
+        fileName.textContent = "Selected: " + fileInput.files[0].name;
+    });
+
+    // Drag & Drop
+    dropArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropArea.style.background = "rgba(56,189,248,0.2)";
+    });
+
+    dropArea.addEventListener("dragleave", () => {
+        dropArea.style.background = "transparent";
+    });
+
+    dropArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        fileInput.files = e.dataTransfer.files;
+        fileName.textContent = "Selected: " + fileInput.files[0].name;
+    });
+
+    // Fake upload progress
+    function uploadFile() {
+        if (!fileInput.files.length) {
+            alert("Please select a file first!");
+            return;
+        }
+
+        progressBox.style.display = "block";
+        let width = 0;
+
+        let interval = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(interval);
+                alert("Upload complete! ✅");
+            } else {
+                width += 5;
+                progressBar.style.width = width + "%";
+            }
+        }, 100);
+    }
+</script>
+
+</body>
 </html>
